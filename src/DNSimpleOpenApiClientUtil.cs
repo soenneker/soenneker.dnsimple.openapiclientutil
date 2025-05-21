@@ -22,10 +22,9 @@ public sealed class DNSimpleOpenApiClientUtil : IDNSimpleOpenApiClientUtil
     {
         _client = new AsyncSingleton<DNSimpleOpenApiClient>(async (token, _) =>
         {
-            var test = configuration.GetValueStrict<bool>("DNSimple:Test");
             var apiKey = configuration.GetValueStrict<string>("DNSimple:Token");
 
-            HttpClient httpClient = await httpClientUtil.Get(test, token).NoSync();
+            HttpClient httpClient = await httpClientUtil.Get(token).NoSync();
 
             var requestAdapter = new HttpClientRequestAdapter(new BearerAuthenticationProvider(apiKey), httpClient: httpClient);
 
