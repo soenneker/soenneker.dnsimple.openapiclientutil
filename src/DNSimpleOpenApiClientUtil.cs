@@ -14,13 +14,14 @@ using Soenneker.Utils.AsyncSingleton;
 namespace Soenneker.DNSimple.OpenApiClientUtil;
 
 ///<inheritdoc cref="IDNSimpleOpenApiClientUtil"/>
+// ReSharper disable once InconsistentNaming
 public sealed class DNSimpleOpenApiClientUtil : IDNSimpleOpenApiClientUtil
 {
     private readonly AsyncSingleton<DNSimpleOpenApiClient> _client;
 
     public DNSimpleOpenApiClientUtil(IDNSimpleClientUtil httpClientUtil, IConfiguration configuration)
     {
-        _client = new AsyncSingleton<DNSimpleOpenApiClient>(async (token, _) =>
+        _client = new AsyncSingleton<DNSimpleOpenApiClient>(async token =>
         {
             var apiKey = configuration.GetValueStrict<string>("DNSimple:Token");
 
