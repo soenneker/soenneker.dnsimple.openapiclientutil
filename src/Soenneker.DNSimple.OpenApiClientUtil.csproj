@@ -45,6 +45,6 @@
         <PackageReference Include="Soenneker.DNSimple.Client" Version="4.0.290" />
         <PackageReference Include="Soenneker.DNSimple.OpenApiClient" Version="4.0.61" />
         <PackageReference Include="Soenneker.Kiota.BearerAuthenticationProvider" Version="4.0.23" />
-        <PackageReference Include="Soenneker.Utils.AsyncSingleton" Version="4.0.735" />
+        <PackageReference Include="Soenneker.Utils.AsyncSingleton" Version="4.0.736" />
     </ItemGroup>
 </Project>
