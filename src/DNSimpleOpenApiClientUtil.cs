@@ -18,19 +18,25 @@ namespace Soenneker.DNSimple.OpenApiClientUtil;
 public sealed class DNSimpleOpenApiClientUtil : IDNSimpleOpenApiClientUtil
 {
     private readonly AsyncSingleton<DNSimpleOpenApiClient> _client;
+    private readonly IDNSimpleClientUtil _httpClientUtil;
+    private readonly IConfiguration _configuration;
 
     public DNSimpleOpenApiClientUtil(IDNSimpleClientUtil httpClientUtil, IConfiguration configuration)
     {
-        _client = new AsyncSingleton<DNSimpleOpenApiClient>(async token =>
-        {
-            var apiKey = configuration.GetValueStrict<string>("DNSimple:Token");
+        _httpClientUtil = httpClientUtil;
+        _configuration = configuration;
+        _client = new AsyncSingleton<DNSimpleOpenApiClient>(CreateClient);
+    }
 
-            HttpClient httpClient = await httpClientUtil.Get(token).NoSync();
+    private async ValueTask<DNSimpleOpenApiClient> CreateClient(CancellationToken token)
+    {
+        var apiKey = _configuration.GetValueStrict<string>("DNSimple:Token");
 
-            var requestAdapter = new HttpClientRequestAdapter(new BearerAuthenticationProvider(apiKey), httpClient: httpClient);
+        HttpClient httpClient = await _httpClientUtil.Get(token).NoSync();
 
-            return new DNSimpleOpenApiClient(requestAdapter);
-        });
+        var requestAdapter = new HttpClientRequestAdapter(new BearerAuthenticationProvider(apiKey), httpClient: httpClient);
+
+        return new DNSimpleOpenApiClient(requestAdapter);
     }
 
     public ValueTask<DNSimpleOpenApiClient> Get(CancellationToken cancellationToken = default)
