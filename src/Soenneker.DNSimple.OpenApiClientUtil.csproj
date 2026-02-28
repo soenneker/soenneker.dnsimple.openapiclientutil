@@ -42,7 +42,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Soenneker.DNSimple.Client" Version="4.0.355" />
+        <PackageReference Include="Soenneker.DNSimple.Client" Version="4.0.356" />
         <PackageReference Include="Soenneker.DNSimple.OpenApiClient" Version="4.0.78" />
         <PackageReference Include="Soenneker.Kiota.BearerAuthenticationProvider" Version="4.0.25" />
         <PackageReference Include="Soenneker.Utils.AsyncSingleton" Version="4.0.748" />
