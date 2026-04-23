@@ -1,20 +1,19 @@
-﻿using Soenneker.DNSimple.OpenApiClientUtil.Abstract;
-using Soenneker.Tests.FixturedUnit;
-using Xunit;
+using Soenneker.DNSimple.OpenApiClientUtil.Abstract;
+using Soenneker.Tests.HostedUnit;
 
 namespace Soenneker.DNSimple.OpenApiClientUtil.Tests;
 
-[Collection("Collection")]
-public class DNSimpleOpenApiClientUtilTests : FixturedUnitTest
+[ClassDataSource<Host>(Shared = SharedType.PerTestSession)]
+public class DNSimpleOpenApiClientUtilTests : HostedUnitTest
 {
     private readonly IDNSimpleOpenApiClientUtil _kiotaclient;
 
-    public DNSimpleOpenApiClientUtilTests(Fixture fixture, ITestOutputHelper output) : base(fixture, output)
+    public DNSimpleOpenApiClientUtilTests(Host host) : base(host)
     {
         _kiotaclient = Resolve<IDNSimpleOpenApiClientUtil>(true);
     }
 
-    [Fact]
+    [Test]
     public void Default()
     {
 
