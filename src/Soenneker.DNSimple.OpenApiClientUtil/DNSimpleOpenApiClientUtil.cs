@@ -15,6 +15,7 @@ namespace Soenneker.DNSimple.OpenApiClientUtil;
 
 ///<inheritdoc cref="IDNSimpleOpenApiClientUtil"/>
 // ReSharper disable once InconsistentNaming
+/// <inheritdoc cref="IDNSimpleOpenApiClientUtil"/>
 public sealed class DNSimpleOpenApiClientUtil : IDNSimpleOpenApiClientUtil
 {
     private readonly AsyncSingleton<DNSimpleOpenApiClient> _client;
@@ -44,11 +45,18 @@ public sealed class DNSimpleOpenApiClientUtil : IDNSimpleOpenApiClientUtil
         return _client.Get(cancellationToken);
     }
 
+    /// <summary>
+    /// Releases resources used by the current instance.
+    /// </summary>
     public void Dispose()
     {
         _client.Dispose();
     }
 
+    /// <summary>
+    /// Asynchronously releases resources used by the current instance.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public ValueTask DisposeAsync()
     {
         return _client.DisposeAsync();
