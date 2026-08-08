@@ -45,7 +45,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Soenneker.DNSimple.Client" Version="4.0.516" />
+        <PackageReference Include="Soenneker.DNSimple.Client" Version="4.0.517" />
         <PackageReference Include="Soenneker.DNSimple.OpenApiClient" Version="4.0.129" />
         <PackageReference Include="Soenneker.Kiota.BearerAuthenticationProvider" Version="4.0.44" />
     </ItemGroup>
