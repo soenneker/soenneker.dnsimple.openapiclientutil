@@ -2,40 +2,32 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Kiota.Abstractions.Authentication;
 using Microsoft.Kiota.Http.HttpClientLibrary;
 using Soenneker.DNSimple.Client.Abstract;
 using Soenneker.DNSimple.OpenApiClient;
-using Soenneker.Extensions.Configuration;
 using Soenneker.DNSimple.OpenApiClientUtil.Abstract;
 using Soenneker.Extensions.ValueTask;
-using Soenneker.Kiota.BearerAuthenticationProvider;
 using Soenneker.Utils.AsyncSingleton;
 
 namespace Soenneker.DNSimple.OpenApiClientUtil;
 
-///<inheritdoc cref="IDNSimpleOpenApiClientUtil"/>
-// ReSharper disable once InconsistentNaming
-/// <inheritdoc cref="IDNSimpleOpenApiClientUtil"/>
 public sealed class DNSimpleOpenApiClientUtil : IDNSimpleOpenApiClientUtil
 {
     private readonly AsyncSingleton<DNSimpleOpenApiClient> _client;
     private readonly IDNSimpleClientUtil _httpClientUtil;
-    private readonly IConfiguration _configuration;
 
     public DNSimpleOpenApiClientUtil(IDNSimpleClientUtil httpClientUtil, IConfiguration configuration)
     {
         _httpClientUtil = httpClientUtil;
-        _configuration = configuration;
         _client = new AsyncSingleton<DNSimpleOpenApiClient>(CreateClient);
     }
 
     private async ValueTask<DNSimpleOpenApiClient> CreateClient(CancellationToken token)
     {
-        var apiKey = _configuration.GetValueStrict<string>("DNSimple:Token");
-
         HttpClient httpClient = await _httpClientUtil.Get(token).NoSync();
 
-        var requestAdapter = new HttpClientRequestAdapter(new BearerAuthenticationProvider(apiKey), httpClient: httpClient);
+        var requestAdapter = new HttpClientRequestAdapter(new AnonymousAuthenticationProvider(), httpClient: httpClient);
 
         return new DNSimpleOpenApiClient(requestAdapter);
     }
@@ -45,18 +37,11 @@ public sealed class DNSimpleOpenApiClientUtil : IDNSimpleOpenApiClientUtil
         return _client.Get(cancellationToken);
     }
 
-    /// <summary>
-    /// Releases resources used by the current instance.
-    /// </summary>
     public void Dispose()
     {
         _client.Dispose();
     }
 
-    /// <summary>
-    /// Asynchronously releases resources used by the current instance.
-    /// </summary>
-    /// <returns>A task that represents the asynchronous operation.</returns>
     public ValueTask DisposeAsync()
     {
         return _client.DisposeAsync();

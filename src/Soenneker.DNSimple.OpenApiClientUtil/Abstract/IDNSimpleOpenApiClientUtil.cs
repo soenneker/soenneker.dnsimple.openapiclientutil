@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 namespace Soenneker.DNSimple.OpenApiClientUtil.Abstract;
 
 /// <summary>
-/// A .NET thread-safe singleton HttpClient for 
+/// Provides a cached <see cref="DNSimpleOpenApiClient"/> backed by the configured DNSimple transport.
 /// </summary>
 public interface IDNSimpleOpenApiClientUtil: IDisposable, IAsyncDisposable
 {
     /// <summary>
-    /// Gets the value.
+    /// Gets the generated client cached by this utility instance.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A task containing the result of the operation.</returns>
+    /// <returns>The configured DNSimple client.</returns>
     ValueTask<DNSimpleOpenApiClient> Get(CancellationToken cancellationToken = default);
 }
