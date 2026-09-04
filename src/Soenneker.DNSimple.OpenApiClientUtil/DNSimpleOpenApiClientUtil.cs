@@ -12,6 +12,7 @@ using Soenneker.Utils.AsyncSingleton;
 
 namespace Soenneker.DNSimple.OpenApiClientUtil;
 
+/// <inheritdoc cref="IDNSimpleOpenApiClientUtil" />
 public sealed class DNSimpleOpenApiClientUtil : IDNSimpleOpenApiClientUtil
 {
     private readonly AsyncSingleton<DNSimpleOpenApiClient> _client;
